@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
-import data from './data';
+// External imports
+import React, { useState } from 'react'
+import { Route } from 'react-router-dom'
 
-// Components
-import Navigation from './components/Navigation';
-import Products from './components/Products';
-import ShoppingCart from './components/ShoppingCart';
+// Asset imports
+import data from './data'
 
-function App() {
-	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+// Local imports
+import Navigation from './components/Navigation'
+import Products from './components/Products'
+import ShoppingCart from './components/ShoppingCart'
+import ProductCTX from './context/ProductCTX'
+import CartCTX from './context/CartCTX'
 
-	const addItem = item => {
-		// add the given item to the cart
-	};
 
-	return (
-		<div className="App">
-			<Navigation cart={cart} />
+const App = () => {
+    const [products] = useState(data)
+    const [cart, setCart] = useState([])
 
-			{/* Routes */}
-			<Route exact path="/">
-				<Products products={products} addItem={addItem} />
-			</Route>
+    const addItem = item => {
+        setCart([...cart, item])
+    }
 
-			<Route path="/cart">
-				<ShoppingCart cart={cart} />
-			</Route>
-		</div>
-	);
+    return (
+        <ProductCTX.Provider value={{ products, addItem }}>
+            <CartCTX.Provider value={{ cart }}>
+                <div className="App">
+                    <Navigation />
+                    <Route exact path="/" component={Products} />
+                    <Route path="/cart" component={ShoppingCart} />
+                </div>
+            </CartCTX.Provider>
+        </ProductCTX.Provider>
+    )
 }
 
-export default App;
+export default App
