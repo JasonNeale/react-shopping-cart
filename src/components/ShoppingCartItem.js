@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Item = props => {
 	return (
@@ -12,7 +12,7 @@ const Item = props => {
 				<button>Remove from cart</button>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
 export default Item;
